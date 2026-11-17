@@ -1,0 +1,12 @@
+{
+  "strength": 1.25,
+  "crop": 1.15,
+  "crop_mode": "center",
+  "half_seconds": 1,
+  "fps": 60,
+  "long_edge": 1080,
+  "supersample": 1.5,
+  "polish": "auto",
+  "motion": "bounce",
+  "easing": "bouncy"
+}

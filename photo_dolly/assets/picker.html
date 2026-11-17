@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Choose the fixed point</title>
+<style>
+:root{font-family:system-ui,sans-serif;background:#08121f;color:#edf2f7;color-scheme:dark}*{box-sizing:border-box}body{margin:0;padding:24px}h1{font-size:24px;margin:0 0 7px}.intro{color:#a2b5c7;margin:0 0 20px}main{display:flex;gap:24px;align-items:flex-start}.photo{position:relative;max-width:calc(100vw - 400px)}img{display:block;max-height:78vh;max-width:100%;cursor:crosshair}#point{position:absolute;width:22px;height:22px;border:2px solid #ffd071;border-radius:50%;transform:translate(-50%,-50%);display:none;pointer-events:none;box-shadow:0 0 0 1px #111}aside{width:320px;flex-shrink:0;padding:20px;border:1px solid #314052;border-radius:9px;background:#122030}#rating{font-size:20px;font-weight:650}p{line-height:1.5}label{display:block;margin:18px 0 8px;color:#acc0d0}input,button{font:inherit;border:1px solid #40546a;border-radius:6px;padding:10px;width:100%;background:#0a1624;color:#edf2f7}button{margin-top:18px;background:#73bac9;color:#09121c;font-weight:650;cursor:pointer}button:disabled{opacity:.35;cursor:default}.small{font-size:12px;color:#93aabe}@media(max-width:750px){body{padding:14px}main{display:block}.photo{max-width:100%}img{max-height:60vh}aside{width:100%;margin-top:15px}}
+</style>
+<h1>Choose what stays still</h1><p class="intro">Click inside the subject you want to hold fixed while the perspective changes.</p>
+<main><div class="photo"><img id="photo" src="/preview.jpg" alt="Your photograph"><div id="point"></div></div><aside><div id="rating">Choose an anchor</div><div id="details"><p>The assessment will consider this point and the requested camera move.</p></div><label for="label">Anchor name</label><input id="label" placeholder="For example: Swiss cross"><button id="use" disabled>Use this anchor</button><p class="small">Depth is estimated from one photo. Reflective, transparent or unseen areas can still need visual review.</p><div id="saved"></div></aside></main>
+<script>
+let selected=null,requestId=0;const image=document.querySelector('#photo'),button=document.querySelector('#use');
+image.onclick=async event=>{
+ const rect=image.getBoundingClientRect();selected={x:(event.clientX-rect.left)/rect.width,y:(event.clientY-rect.top)/rect.height};
+ const point=document.querySelector('#point');point.style.left=`${selected.x*100}%`;point.style.top=`${selected.y*100}%`;point.style.display='block';
+ const id=++requestId;button.disabled=true;document.querySelector('#rating').textContent='Checking this point…';
+ try{const response=await fetch(`/api/assess?x=${selected.x}&y=${selected.y}`);const result=await response.json();if(id!==requestId)return;if(!response.ok)throw Error(result.error);
+ document.querySelector('#rating').textContent=result.rating[0].toUpperCase()+result.rating.slice(1);
+ const details=document.querySelector('#details');details.replaceChildren();
+ for(const text of [...result.reasons,...result.cautions]){const p=document.createElement('p');p.textContent=text;details.append(p)}
+ button.disabled=false;
+ }catch(error){document.querySelector('#rating').textContent='Could not assess';document.querySelector('#details').textContent=String(error)}
+};
+button.onclick=async()=>{button.disabled=true;try{const response=await fetch('/api/anchor',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...selected,label:document.querySelector('#label').value})});if(!response.ok)throw Error('Could not save this anchor');document.querySelector('#saved').textContent='Anchor saved. Processing continues in the terminal; the finished video path will be shown there.'}catch(error){document.querySelector('#saved').textContent=String(error);button.disabled=false}};
+</script></html>

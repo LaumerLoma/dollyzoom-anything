@@ -1,0 +1,10 @@
+{
+  "name": "dollyzoom-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "dependencies": {
+    "@sparkjsdev/spark": "2.3.1",
+    "playwright-core": "1.65.1",
+    "three": "0.180.0"
+  }
+}

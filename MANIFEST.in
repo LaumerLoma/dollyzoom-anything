@@ -1,0 +1,22 @@
+include README.md LICENSE pyproject.toml .gitignore .gitattributes CONTRIBUTING.md CHANGELOG.md
+include photo-dolly dollyzoom
+recursive-include docs *.md
+recursive-include tests/unit *.py
+exclude tests/*.py
+include scripts/build_release.py
+recursive-include .github *.yml *.yaml *.md
+recursive-include photo_dolly/assets *.html *.js *.mjs
+recursive-include photo_dolly/examples *.json
+include photo_dolly/requirements.lock.txt photo_dolly/viewer-package.json photo_dolly/viewer-package-lock.json
+prune photo_dolly/cache
+prune photo_dolly/runs
+prune photo_dolly/outputs
+prune photo_dolly/runtime
+prune photo_dolly/tests
+prune photo_dolly/demo
+prune photo_dolly/skill
+prune photo_dolly/docs
+prune gaussian_splat
+prune renders
+prune to-do
+global-exclude __pycache__ *.py[cod] .DS_Store

@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dollyzoom-anything"
+version = "0.1.0"
+description = "Dollyzoom anything. Turn a single photo into a locally rendered, anchored dolly zoom."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["dolly-zoom", "photography", "gaussian-splatting", "cli", "agents"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Graphics :: 3D Rendering",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["build>=1.2,<2", "ruff>=0.11,<1", "numpy>=2,<3", "scipy>=1.14,<2", "Pillow>=11,<14", "plyfile>=1.1,<2"]
+
+[project.scripts]
+dollyzoom = "photo_dolly.cli:entrypoint"
+photo-dolly = "photo_dolly.cli:entrypoint"
+
+[tool.setuptools]
+packages = ["photo_dolly"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+photo_dolly = ["assets/*.html", "assets/*.js", "assets/*.mjs", "examples/*.json", "requirements.lock.txt", "viewer-package.json", "viewer-package-lock.json"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+include = ["photo_dolly/*.py", "tests/unit/*.py", "scripts/build_release.py"]
+extend-exclude = ["gaussian_splat", "photo_dolly/tests", "photo_dolly/skill", "photo_dolly/cache", "photo_dolly/runs", "photo_dolly/outputs", "photo_dolly/runtime", "photo_dolly/demo", "build", "dist"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

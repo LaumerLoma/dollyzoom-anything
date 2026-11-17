@@ -1,0 +1,5 @@
+#!/bin/sh
+# Source-checkout convenience launcher; installed users run the console script.
+DOLLYZOOM_SOURCE=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+export PYTHONPATH="$DOLLYZOOM_SOURCE${PYTHONPATH:+:$PYTHONPATH}"
+exec python3 -m photo_dolly "$@"

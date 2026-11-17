@@ -1,5 +1,13 @@
 # Dollyzoom anything
 
+<p align="center">
+  <img src="docs/demo-photo.jpg" width="360"
+       alt="Input photo: a cyclist on a waterfront path in front of a city skyline">
+  <img src="docs/demo.gif" width="360"
+       alt="Dolly zoom rendered from that photo: the cyclist stays fixed while the skyline behind changes scale">
+</p>
+<p align="center"><sub>One photo in (left), an anchored dolly zoom out (right).</sub></p>
+
 **One photo. One fixed point. A whole new perspective.**
 
 `dollyzoom` turns a photograph into an anchored dolly zoom: your subject stays in

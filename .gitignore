@@ -25,6 +25,9 @@
 *.ckpt
 *.safetensors
 *.zip
+# Curated public samples (metadata-free), shown in the README only.
+!/docs/demo.gif
+!/docs/demo-photo.jpg
 
 # Local experiments and their private reports; retained on disk.
 /gaussian_splat/
